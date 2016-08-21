@@ -48,7 +48,7 @@ public class Inmobiliaria extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel1.setText("Inmoviliaria");
+        jLabel1.setText("Inmobiliaria");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
@@ -59,26 +59,29 @@ public class Inmobiliaria extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtMKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMKeyTyped(evt);
+            }
         });
         jPanel1.add(txtM, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 80, -1));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
         jLabel3.setText("Cuota Inicial");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
 
         lblCI.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         lblCI.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(lblCI, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 130, 40));
+        jPanel1.add(lblCI, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 130, 40));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
         jLabel5.setText("Monto por cuota");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 150, -1, -1));
 
         lblCF.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         lblCF.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCF.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(lblCF, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 170, 140, 40));
+        jPanel1.add(lblCF, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 170, 140, 40));
 
         cmdCalcular.setText("Calcular");
         cmdCalcular.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +89,7 @@ public class Inmobiliaria extends javax.swing.JFrame {
                 cmdCalcularActionPerformed(evt);
             }
         });
-        jPanel1.add(cmdCalcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 290, -1, -1));
+        jPanel1.add(cmdCalcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 120, -1));
 
         cmdRestaurar.setText("Restaurar");
         cmdRestaurar.addActionListener(new java.awt.event.ActionListener() {
@@ -94,7 +97,7 @@ public class Inmobiliaria extends javax.swing.JFrame {
                 cmdRestaurarActionPerformed(evt);
             }
         });
-        jPanel1.add(cmdRestaurar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, -1, -1));
+        jPanel1.add(cmdRestaurar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 290, 130, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 350));
 
@@ -103,23 +106,33 @@ public class Inmobiliaria extends javax.swing.JFrame {
 
     private void cmdCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCalcularActionPerformed
         
-        String r,re;
-        double m, ci, cf, t;
-        
-        m = Double.parseDouble(txtM.getText());
-        
-        t = m * 80000;
-        
-        ci = t * 0.35;
-        
-        cf = (t-ci)/12;
-       
-        r = String.valueOf(ci);
-        re = String.valueOf(cf);
-        
-        lblCI.setText(r);
-        lblCF.setText(re);
-        
+        if (txtM.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No Ha Ingresado Los Metros Cuadrados", "ERROR", JOptionPane.ERROR_MESSAGE);
+            txtM.requestFocusInWindow();
+        } else if (txtM.getText().equalsIgnoreCase("0")) {
+            JOptionPane.showMessageDialog(this, "Ingrese Una Longitud Superior a 0", "ERROR", JOptionPane.ERROR_MESSAGE);
+            txtM.selectAll();
+            txtM.requestFocusInWindow();
+        } else {
+
+            String r, re;
+            double m, ci, cf, t;
+
+            m = Double.parseDouble(txtM.getText());
+
+            t = m * 80000;
+
+            ci = t * 0.35;
+
+            cf = (t - ci) / 12;
+
+            r = String.valueOf(ci);
+            re = String.valueOf(cf);
+
+            lblCI.setText("$ " + r);
+            lblCF.setText("$ " + re);
+
+        }
     }//GEN-LAST:event_cmdCalcularActionPerformed
 
     private void cmdRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRestaurarActionPerformed
@@ -128,33 +141,51 @@ public class Inmobiliaria extends javax.swing.JFrame {
         lblCI.setText("");
         lblCF.setText("");
         txtM.requestFocusInWindow();
-        
+
     }//GEN-LAST:event_cmdRestaurarActionPerformed
 
     private void txtMKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMKeyPressed
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-        
-        String r,re;
-        double m, ci, cf, t;
-        
-        m = Double.parseDouble(txtM.getText());
-        
-        t = m * 80000;
-        
-        ci = t * 0.35;
-        
-        cf = (t-ci)/12;
-        
-        r = String.valueOf(ci);
-        re = String.valueOf(cf);
-        
-        lblCI.setText(r);
-        lblCF.setText(re);
-        
+
+            if (txtM.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No Ha Ingresado Los Metros Cuadrados", "ERROR", JOptionPane.ERROR_MESSAGE);
+                txtM.requestFocusInWindow();
+            } else if (txtM.getText().equalsIgnoreCase("0")) {
+                JOptionPane.showMessageDialog(this, "Ingrese Una Longitud Superior a 0", "ERROR", JOptionPane.ERROR_MESSAGE);
+                txtM.selectAll();
+                txtM.requestFocusInWindow();
+            } else {
+
+                String r, re;
+                double m, ci, cf, t;
+
+                m = Double.parseDouble(txtM.getText());
+
+                t = m * 80000;
+
+                ci = t * 0.35;
+
+                cf = (t - ci) / 12;
+
+                r = String.valueOf(ci);
+                re = String.valueOf(cf);
+
+                lblCI.setText("$ " + r);
+                lblCF.setText("$ " + re);
+            }
         }
-        
     }//GEN-LAST:event_txtMKeyPressed
+
+    private void txtMKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMKeyTyped
+
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMKeyTyped
 
     /**
      * @param args the command line arguments
